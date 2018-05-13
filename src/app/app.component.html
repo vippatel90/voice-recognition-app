@@ -1,20 +1,89 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-card class="app-card">
+  <div class="card registration">
+    <h1 class="text-center">Register for Voice Authentication</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <button (click)="startEnrollment()" type="button" class="mr-3 btn btn-outline-secondary">Start Enrollment </button>
+      </div>
+    </div>
 
+    <div class="row" *ngIf="phrase">
+      <div class="col-sm-12">
+        <mat-form-field>
+          <mat-select [(ngModel)]="selectedPhrase">
+            <mat-option *ngFor="let tag of phrase" [value]="tag.phrase">
+              {{tag.phrase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> 
+    </div>
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-12">
+        <div class="phrase-box">
+          <p class="text-heading5 text-center"> {{selectedPhrase}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-12">
+        <p class="text-heading5 text-center"> Pleasae read above phrase thrice for voice verification</p>
+      </div>
+    </div>
+
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-5">
+        <button #recording style="margin-top: 18px" (click)="start()"  type="button" class="mr-3 btn btn-outline-secondary"> {{ startRecording ? 'Start recording' : 'Stop recording' }}
+           <span *ngIf="startRecording"><mat-icon>mic</mat-icon></span>
+           <span *ngIf="stopRecording"><mat-icon>mic_off</mat-icon></span>
+        </button> 
+
+      </div>
+      <div class="col-sm-7">
+        <mat-horizontal-stepper  #stepper>
+          <mat-step [editable]="false">
+              <ng-template matStepLabel>
+                <span *ngIf="sampleStatus[0].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+                <span *ngIf="sampleStatus[0].error"><mat-icon style="color:red">error</mat-icon></span>
+              </ng-template>
+          </mat-step>
+          <mat-step [editable]="false">
+            <ng-template matStepLabel>
+              <span *ngIf="sampleStatus[1].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+              <span *ngIf="sampleStatus[1].error" ><mat-icon style="color:red">error</mat-icon></span>
+            </ng-template>    
+          </mat-step >
+          <mat-step [editable]="false">
+            <ng-template matStepLabel>
+              <span *ngIf="sampleStatus[2].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+              <span *ngIf="sampleStatus[2].error"><mat-icon style="color:red">error</mat-icon></span>
+            </ng-template>
+          </mat-step>
+        </mat-horizontal-stepper>
+         
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isEnrolled">
+      <div class="col-sm-12">
+        <p class="text-heading5 text-center marginn-b-20" style="color:green"> Profile has been succesfully enrolled</p>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isEnrolled">
+      <div class="col-sm-12">
+        <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary">
+          {{ stopRecording ? 'Verify Stop recording' : 'Verify (start recording)' }}
+          <span *ngIf="!stopRecording"><mat-icon>mic</mat-icon></span>
+          <span *ngIf="stopRecording"><mat-icon>mic_off</mat-icon></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <pre id="log"></pre>
+      
+</mat-card>
