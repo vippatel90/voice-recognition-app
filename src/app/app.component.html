@@ -3,7 +3,9 @@
     <h1 class="text-center">Register for Voice Authentication</h1>
     <div class="row">
       <div class="col-sm-12">
-        <button (click)="startEnrollment()" type="button" class="mr-3 btn btn-outline-secondary">Start Enrollment </button>
+        <p class="text-heading5 text-center marginn-b-20" *ngIf="mediaError" style="color:red"><span><mat-icon>error</mat-icon></span> This app needs audio permsion to be on </p>
+
+        <button [disabled]="mediaError" (click)="startEnrollment()" type="button" class="mr-3 btn btn-outline-secondary">Start Enrollment </button>
       </div>
     </div>
 
@@ -37,8 +39,7 @@
     <div class="row" *ngIf="selectedPhrase">
       <div class="col-sm-5">
         <button #recording style="margin-top: 18px" (click)="start()"  type="button" class="mr-3 btn btn-outline-secondary"> {{ startRecording ? 'Start recording' : 'Stop recording' }}
-           <span *ngIf="startRecording"><mat-icon>mic</mat-icon></span>
-           <span *ngIf="stopRecording"><mat-icon>mic_off</mat-icon></span>
+           <span><mat-icon>mic</mat-icon></span>
         </button> 
 
       </div>
@@ -75,11 +76,18 @@
 
     <div class="row" *ngIf="isEnrolled">
       <div class="col-sm-12">
-        <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary">
-          {{ stopRecording ? 'Verify Stop recording' : 'Verify (start recording)' }}
-          <span *ngIf="!stopRecording"><mat-icon>mic</mat-icon></span>
-          <span *ngIf="stopRecording"><mat-icon>mic_off</mat-icon></span>
+        <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary marginn-b-20">
+          {{ stopRecording ? 'Verify Stop recording' : 'Verify (Start recording)' }}
+          <span *ngIf="!verificationStatus.loading"><mat-icon>mic</mat-icon></span>
+          <span *ngIf="verificationStatus.loading"><mat-spinner [diameter]="20"></mat-spinner></span>
         </button>
+
+        <p *ngIf="verificationStatus.error" class="text-heading5 text-center marginn-b-20" style="color:red">
+          <span><mat-icon>error</mat-icon></span> Unable to verify the profile 
+        </p>
+        <p *ngIf="verificationStatus.done" class="text-heading5 text-center marginn-b-20" style="color:green"> 
+          <span><mat-icon>done</mat-icon></span> Profile has been succesfully verified
+        </p>
       </div>
     </div>
   </div>

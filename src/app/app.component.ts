@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatStepper } from '@angular/material';
 import Recorder from 'recorder-js';
 
-const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
+const audioContext =  new (AudioContext || (window as any).webkitAudioContext)();
 const recorder = new Recorder(audioContext, { numChannels: 1 });
 const httpOptionsJsonType = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key' : '5016377b7e2b4ae18dc0d230b1d56869' }),
@@ -12,14 +12,19 @@ const httpOptionsMultipartType = {
   headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'Ocp-Apim-Subscription-Key' : '5016377b7e2b4ae18dc0d230b1d56869' }),
 };
 
+const httpOctetStreamType = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key' : '5016377b7e2b4ae18dc0d230b1d56869' }),
+};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   phrase = null;
   selectedPhrase = '';
+  mediaError = false;
   startRecording = true;
   stopRecording = false;
   isMannuallyStopCalled = false;
@@ -42,6 +47,12 @@ export class AppComponent {
       loading: false,
     },
   ];
+
+  verificationStatus = {
+    done: true,
+    error: true,
+    loading: false,
+  };
 
   @ViewChild('audio')
   audio: ElementRef;
@@ -79,6 +90,8 @@ export class AppComponent {
           this.startRecording = false;
           this.stopRecording = true;
          // setTimeout(() => { this.stopListening() }, 10*1000);
+        }, err => {
+          this.mediaError = true;
         });
       }
     } else {
@@ -131,7 +144,7 @@ export class AppComponent {
   }
 
   verifyProfile() {
-    if (this.verify.nativeElement.innerText.indexOf('Verify') !== -1) {
+    if (this.verify.nativeElement.innerText.indexOf('Start') !== -1) {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           recorder.init(stream);
@@ -147,7 +160,24 @@ export class AppComponent {
   }
 
   verifyAudioProfile() {
-    console.log('verify..............auido');
+    this.stopRecording = false;
+    this.verificationStatus.loading = true;
+    this.verificationStatus.error = false;
+    recorder.stop().then(({blob, buffer}) => {
+      this.http.post('https://westus.api.cognitive.microsoft.com/spid/v1.0/verify?verificationProfileId=' + this.verificationProfile.profileId, blob, httpOctetStreamType).subscribe(
+      (data: any) => {
+        if (data && data.result === 'Accept') {
+          this.verificationStatus.done = true;
+          this.verificationStatus.loading = false;
+        } else {
+            this.verificationStatus.done = false;
+            this.verificationStatus.error = true;
+        }
+     },
+      err => { this.verificationStatus.error = true; this.verificationStatus.loading = false; this.verificationStatus.done = false; this.stopRecording = false; },
+      () => { this.verificationStatus.loading = false;this.verificationStatus.done = false; this.stopRecording = false; },
+    );
+    });
   }
 
   showAudio(blob) {
