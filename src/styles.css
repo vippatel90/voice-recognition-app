@@ -1,2 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+h1,h2,h3,h4,h5,h6,table,p {
+  padding: 0;
+  margin: 0;
+}
+
+button, .mat-form-field {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+.mat-icon {
+  vertical-align: bottom;
+}
+
+.mat-horizontal-stepper-header {
+  height: 40px !important;
+}
+
+.marginn-b-20 {
+  margin-bottom: 20px;
+}
+
+.app-card {
+  max-width: 1200px;
+  margin: auto;
+}
+.registration{
+  max-width: 500px;
+  margin: auto;
+  border: none;
+}
+
+h1 {
+  font-size: 1.2em;
+  color: #999;
+  margin-bottom: 20px;
+}
+h2 {
+  font-size: 2em;
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+h5, .text-heading5 {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.33;
+}

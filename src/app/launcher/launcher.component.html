@@ -1,0 +1,24 @@
+<mat-card class="app-card">
+  <div class="card registration">
+    <h1 class="text-center">Welcome to Voice Authentication Demo</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <p class="text-heading5 text-center marginn-b-20" *ngIf="isMediaError" style="color:red"><span><mat-icon>error</mat-icon></span> This app needs audio permission to be On </p>
+      </div>
+    </div>
+    <div class="row" *ngIf="!isMediaError">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <input type="text" class="form-control" (blur)="isUserRegistered()" name="mobile" [(ngModel)]="mobile">
+        </div>
+        <p *ngIf="!isRegistered" class="text-heading5 text-center marginn-b-20">
+          You seem to be not registered for voice authentication. Please <a routerLink="/verify-enrollment/{{mobile}}">enroll </a>your self.
+        </p>
+
+        <p *ngIf="isRegistered" class="text-heading5 text-center marginn-b-20">
+          You seem to be already registered. Please <a routerLink="/verify-auth/{{mobile}}"> verify </a>your self.
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,78 @@
+<mat-card class="app-card">
+  <div class="card registration">
+    <h1 class="text-center">Register for Voice Authentication</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <button [disabled]="mediaError" (click)="startEnrollment()" type="button" class="mr-3 btn btn-outline-secondary">Start Enrollment </button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="phrase">
+      <div class="col-sm-12">
+        <mat-form-field>
+          <mat-select [(ngModel)]="selectedPhrase">
+            <mat-option *ngFor="let tag of phrase" [value]="tag.phrase">
+              {{tag.phrase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> 
+    </div>
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-12">
+        <div class="phrase-box">
+          <p class="text-heading5 text-center"> {{selectedPhrase}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-12">
+        <p class="text-heading5 text-center marginn-b-20"> Pleasae read above phrase thrice for voice verification</p>
+      </div>
+    </div>
+
+
+    <div class="row" *ngIf="selectedPhrase">
+      <div class="col-sm-5">
+        <button #recording (click)="start()"  type="button" class="mr-3 btn btn-outline-secondary"> {{ startRecording ? 'Start recording' : 'Stop recording' }}
+           <span><mat-icon>mic</mat-icon></span>
+        </button> 
+
+      </div>
+      <div class="col-sm-7">
+        <mat-horizontal-stepper  #stepper>
+          <mat-step [editable]="false">
+              <ng-template matStepLabel>
+                <span *ngIf="sampleStatus[0].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+                <span *ngIf="sampleStatus[0].error"><mat-icon style="color:red">error</mat-icon></span>
+              </ng-template>
+          </mat-step>
+          <mat-step [editable]="false">
+            <ng-template matStepLabel>
+              <span *ngIf="sampleStatus[1].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+              <span *ngIf="sampleStatus[1].error" ><mat-icon style="color:red">error</mat-icon></span>
+            </ng-template>    
+          </mat-step >
+          <mat-step [editable]="false">
+            <ng-template matStepLabel>
+              <span *ngIf="sampleStatus[2].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+              <span *ngIf="sampleStatus[2].error"><mat-icon style="color:red">error</mat-icon></span>
+            </ng-template>
+          </mat-step>
+        </mat-horizontal-stepper>
+         
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isEnrolled">
+      <div class="col-sm-12">
+        <p class="text-heading5 text-center marginn-b-20" style="color:green"> Profile has been succesfully enrolled</p>
+      </div>
+    </div>
+  </div>
+
+  <pre id="log"></pre>
+      
+</mat-card>
