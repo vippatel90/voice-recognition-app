@@ -5,6 +5,7 @@ import {VerificationEnrollComponent} from './verification-enroll/verification-en
 import { VerificationAuthComponent } from './verification-auth/verification-auth.component';
 
 const routes: Routes = [
+  { path: '', component: LauncherComponent },
   { path: 'launcher', component: LauncherComponent },
   { path: 'verify-enrollment/:mobile', component: VerificationEnrollComponent },
   { path: 'verify-auth/:mobile', component: VerificationAuthComponent },
