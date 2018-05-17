@@ -1,29 +1,48 @@
 <mat-card class="app-card">
   <div class="card registration">
-    <h1 class="text-center">Please verify yourself !!!</h1>
+    <div *ngIf="!verificationStatus.done">
+      <h1 class="text-center">Please verify yourself !!!</h1>
 
-    <div class="row" *ngIf="selectedPhrase">
-      <div class="col-sm-12">
-        <p class="text-heading5 text-center"> Pleasae speak up same pharse while enrolling yoursel</p>
+      <div class="row" *ngIf="selectedPhrase">
+        <div class="col-sm-12">
+          <p class="text-heading5 text-center"> Pleasae speak up same pharse while enrolling yoursel</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary marginn-b-20">
+            {{ stopRecording ? 'Verify Stop recording' : 'Verify (Start recording)' }}
+            <span *ngIf="!verificationStatus.loading"><mat-icon>mic</mat-icon></span>
+            <span *ngIf="verificationStatus.loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+          </button>
+
+          <p *ngIf="verificationStatus.error" class="text-heading5 text-center marginn-b-20" style="color:red">
+            <span><mat-icon>error</mat-icon></span> Unable to verify the profile 
+          </p>
+          
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary marginn-b-20">
-          {{ stopRecording ? 'Verify Stop recording' : 'Verify (Start recording)' }}
-          <span *ngIf="!verificationStatus.loading"><mat-icon>mic</mat-icon></span>
-          <span *ngIf="verificationStatus.loading"><mat-spinner [diameter]="20"></mat-spinner></span>
-        </button>
+    <div *ngIf="verificationStatus.done">
 
-        <p *ngIf="verificationStatus.error" class="text-heading5 text-center marginn-b-20" style="color:red">
-          <span><mat-icon>error</mat-icon></span> Unable to verify the profile 
-        </p>
-        <p *ngIf="verificationStatus.done" class="text-heading5 text-center marginn-b-20" style="color:green"> 
-          <span><mat-icon>done</mat-icon></span> Profile has been succesfully verified
-        </p>
+      <h1 class="text-center">Welcome {{ profile.nickName }} !!</h1>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="text-heading5 text-center marginn-b-20" style="color:green"> 
+            <span><mat-icon>done</mat-icon></span> Profile has been succesfully verified
+          </p>
+          <p class="text-heading5 text-center marginn-b-20"> 
+            How May I Help You !!!!
+          </p>
+        </div>
       </div>
-    </div>
+
+    </div>  
+
+
   </div>
       
 </mat-card>

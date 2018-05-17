@@ -1,16 +1,26 @@
 <mat-card class="app-card">
   <div class="card registration">
     <h1 class="text-center">Register for Voice Authentication</h1>
+
     <div class="row">
       <div class="col-sm-12">
+        <label for="nickName">NickName</label>
+        <input type="text" class="form-control" name="nickName" [(ngModel)]="nickName">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 marginn-t-20">
         <button [disabled]="mediaError" (click)="startEnrollment()" type="button" class="mr-3 btn btn-outline-secondary">Start Enrollment </button>
       </div>
     </div>
 
+    
+
     <div class="row" *ngIf="phrase">
       <div class="col-sm-12">
-        <mat-form-field>
-          <mat-select [(ngModel)]="selectedPhrase">
+        <mat-form-field class="marginn-t-20">
+          <mat-select placeholder="Please select the phrase" [(ngModel)]="selectedPhrase">
             <mat-option *ngFor="let tag of phrase" [value]="tag.phrase">
               {{tag.phrase}}
             </mat-option>
@@ -29,20 +39,20 @@
 
     <div class="row" *ngIf="selectedPhrase">
       <div class="col-sm-12">
-        <p class="text-heading5 text-center marginn-b-20"> Pleasae read above phrase thrice for voice verification</p>
+        <p class="text-heading5 text-center"> Pleasae read above phrase thrice for voice verification</p>
       </div>
     </div>
 
 
     <div class="row" *ngIf="selectedPhrase">
       <div class="col-sm-5">
-        <button #recording (click)="start()"  type="button" class="mr-3 btn btn-outline-secondary"> {{ startRecording ? 'Start recording' : 'Stop recording' }}
+        <button #recording (click)="start()"  type="button" class="mr-3 btn btn-outline-secondary marginn-t-20"> {{ startRecording ? 'Start recording' : 'Stop recording' }}
            <span><mat-icon>mic</mat-icon></span>
         </button> 
 
       </div>
       <div class="col-sm-7">
-        <mat-horizontal-stepper  #stepper>
+        <mat-horizontal-stepper  #stepper  class="marginn-t-20">
           <mat-step [editable]="false">
               <ng-template matStepLabel>
                 <span *ngIf="sampleStatus[0].loading"><mat-spinner [diameter]="20"></mat-spinner></span>
@@ -68,7 +78,11 @@
 
     <div class="row" *ngIf="isEnrolled">
       <div class="col-sm-12">
-        <p class="text-heading5 text-center marginn-b-20" style="color:green"> Profile has been succesfully enrolled</p>
+        <p class="text-heading5 text-center marginn-b-20" style="color:green"> Profile has been succesfully enrolled with mobile {{mobile}}</p>
+      </div>
+
+      <div class="col-sm-12">
+        <a  routerLink="/verify-auth/{{mobile}}" class="btn btn-outline-secondary btn-block marginn-t-20" role="button">Verify</a>
       </div>
     </div>
   </div>

@@ -41,7 +41,7 @@ export class AppService {
 
   initialiseRecorder(stream: any) {
     const audioContext =  new (AudioContext || (window as any).webkitAudioContext)();
-    this.recorder = new Recorder(audioContext, { numChannels: 1 });
+    this.recorder = new Recorder(audioContext, { numChannels: 1, requiredSammpleRate: 16000 });
     this.recorder.init(stream);
   }
 

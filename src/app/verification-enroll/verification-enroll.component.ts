@@ -12,6 +12,7 @@ import Recorder from 'recorder-js';
 export class VerificationEnrollComponent implements OnInit {
   phrase = null;
   mobile = null;
+  nickName = '';
   selectedPhrase = '';
   startRecording = true;
   stopRecording = false;
@@ -120,7 +121,7 @@ export class VerificationEnrollComponent implements OnInit {
     const storageItem = window.localStorage.getItem('registeredUsers');
     const registeredUsers = JSON.parse(storageItem) || [];
     console.log(registeredUsers);
-    registeredUsers.push({ mobile: this.mobile, profileId: this.verificationProfile.profileId });
+    registeredUsers.push({ mobile: this.mobile, profileId: this.verificationProfile.profileId, nickName: this.nickName });
     window.localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
   }
 
