@@ -13,16 +13,28 @@
         <div class="col-sm-12">
           <button #verify (click)="verifyProfile()" type="button" class="mr-3 btn btn-outline-secondary marginn-b-20">
             {{ stopRecording ? 'Verify Stop recording' : 'Verify (Start recording)' }}
-            <span *ngIf="!verificationStatus.loading"><mat-icon>mic</mat-icon></span>
-            <span *ngIf="verificationStatus.loading"><mat-spinner [diameter]="20"></mat-spinner></span>
+            <span><mat-icon>mic</mat-icon></span>
           </button>
-
           <p *ngIf="verificationStatus.error" class="text-heading5 text-center marginn-b-20" style="color:red">
             <span><mat-icon>error</mat-icon></span> Unable to verify the profile 
-          </p>
-          
+          </p>   
         </div>
       </div>
+
+      <div class="row" *ngIf="verificationStatus.loading">
+        <div class="col-sm-12">
+          <div class="outer" >
+            <div class="middle">
+              <mat-spinner [diameter]="50" class="layout-center"></mat-spinner>
+            </div>
+          </div>
+          <p class="text-heading5 text-center" style="margin-top: 90px">
+            Please wait while verifying......
+          <p>
+        </div>  
+      </div>
+
+      
     </div>
 
     <div *ngIf="verificationStatus.done">

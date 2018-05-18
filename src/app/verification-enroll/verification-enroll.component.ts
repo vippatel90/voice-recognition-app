@@ -53,10 +53,19 @@ export class VerificationEnrollComponent implements OnInit {
    this.appService.getPhrases().subscribe(
       data => {
         this.phrase = data;
+        this.removeBadPharse('houston we have had a problem');
+        this.removeBadPharse('apple juice tastes funny after toothpaste');
       },
       err => console.log(err),
       () => console.log('done loading pharse')
     );
+  }
+
+  removeBadPharse(phrase) {
+    const index = this.phrase.findIndex( (element: any) => {
+      return element.phrase === phrase;
+    });
+    this.phrase.splice(index, 1);
   }
 
   start() {

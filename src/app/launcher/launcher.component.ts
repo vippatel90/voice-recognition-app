@@ -8,7 +8,7 @@ import { AppService } from '../app.service';
 })
 export class LauncherComponent implements OnInit {
   isMediaError = false;
-  mobile = '042611122';
+  mobile = '04261112';
   isRegistered: boolean;
   constructor(@Inject('Window') window: Window, private appService: AppService ) {  }
 
@@ -21,7 +21,7 @@ export class LauncherComponent implements OnInit {
   }
 
   continue() {
-    const randomNumber = Math.floor(Math.random() * 10);
+    const randomNumber = Math.floor(Math.random() * 100);
     this.mobile = this.mobile + randomNumber;
     this.isUserRegistered();
   }
