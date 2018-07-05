@@ -3,7 +3,7 @@ import Recorder from 'recorder-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // get subscription key of microsoft azure for speaker rekogntion
-const subscriptionKey = 'cb3cb87d35e0420c974bfe3aa0189e15';
+const subscriptionKey = '25467739943e401ab7377a6ac28e355b';
 
 const httpOptionsJsonType = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key' : subscriptionKey }),
