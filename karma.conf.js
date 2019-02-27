@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-mocha-reporter'),
       require('@angular/cli/plugins/karma')
     ],
     client:{
@@ -25,7 +26,9 @@ module.exports = function (config) {
     // A list of reporters to use for printing testcase in console/browser. default is 'progress'
     // for other than 'dots' and 'progress' report, have to install NPM module
     //like for below 'kjhtml' we need  'karma-jasmine-html-reporter' plugin
-    reporters: ['progress', 'kjhtml'], //khtml prints in browser only
+    //khtml prints in browser only when use normal chrome
+    //mocha prints in console itself, used with phantomjs browser and chrome headless browser
+    reporters: ['mocha', 'kjhtml'], 
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
