@@ -4,7 +4,8 @@ import {LauncherComponent} from './launcher/launcher.component';
 import {VerificationEnrollComponent} from './verification-enroll/verification-enroll.component';
 import { VerificationAuthComponent } from './verification-auth/verification-auth.component';
 
-const routes: Routes = [
+// exported to test the routes with RouterTestingModule
+export const routes: Routes = [
   { path: '', component: LauncherComponent },
   { path: 'launcher', component: LauncherComponent },
   { path: 'verify-enrollment/:mobile', component: VerificationEnrollComponent },

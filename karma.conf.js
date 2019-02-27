@@ -22,12 +22,25 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
-    reporters: ['progress', 'kjhtml'],
+    // A list of reporters to use for printing testcase in console/browser. default is 'progress'
+    // for other than 'dots' and 'progress' report, have to install NPM module
+    //like for below 'kjhtml' we need  'karma-jasmine-html-reporter' plugin
+    reporters: ['progress', 'kjhtml'], //khtml prints in browser only
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
+    // toggle whether to watch files and rerun tests upon incurring changes
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadlessCustom'],
+    customLaunchers: {
+        ChromeHeadlessCustom: {
+            base: 'ChromeHeadless', // browser
+            flags: [
+                '--no-sandbox', // needed to run test  case in windows also
+            ],
+        },
+    },
+    // if true, Karma runs tests once and exits
     singleRun: false
   });
 };
